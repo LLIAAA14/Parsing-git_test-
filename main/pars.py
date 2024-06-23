@@ -36,13 +36,15 @@ def get_data(html):
                       'удобства': facilities,
                       'адрес': address,
                       'ссылка': urls}
-    return rooms_dict
+
+
+        return rooms_dict
 
     
               
 def main():
     url = 'https://kaliningrad.sutochno.ru/'
-    print(get_data(get_html(url)))
+    get_data(get_html(url))
 
 if __name__ == '__main__':
     main()
