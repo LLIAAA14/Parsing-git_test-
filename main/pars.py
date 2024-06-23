@@ -10,7 +10,15 @@ def get_data(html):
     soup = BeautifulSoup(html, 'html.parser')
     rooms = soup.find_all('div', class_='card')
     
-for room in rooms:
+    for room in rooms:
+        try:
+            type_room = room.find(class_= 'object-hotel__type').text
+        except Exception:
+            type_room = 'Нет данных'
+         print(type_room)
+
+
+
         
 
 def main():
