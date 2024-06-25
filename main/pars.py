@@ -1,6 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
-
+import openpyxl 
 
 def get_html(url):
     house = requests.get(url)
@@ -10,10 +10,28 @@ def normal_str(s):
     r = ' '.join(s.split())
     return r
 
+def write_exel(rooms_list):
+    workbook = openpyxl.Workbook()
+    sheet = workbook.active
+    keys = rooms_list[0].keys()
+
+
+    for col, key in enumerate(keys, start=1):
+        sheet.cell(row=1, column=col, value=key)
+
+
+    for row, room in enumerate(rooms_list, start=2):
+        for col, key in enumerate(keys, start=1):
+            sheet.cell(row=row, column=col, value=room[key])
+
+
+    workbook.save("rooms_kaliningrad.xlsx")
+    
+
 def get_data(html):
     soup = BeautifulSoup(html, 'html.parser')
     rooms = soup.find_all('div', class_='card')
-    
+    rooms_list = []
     for room in rooms:
         try:
             type_room = room.find(class_='object-hotel__type').text
@@ -38,8 +56,8 @@ def get_data(html):
                       'ссылка': urls}
 
 
-        return rooms_dict
-
+        rooms_list.append(rooms_dict)
+    write_exel(rooms_list)
     
               
 def main():
